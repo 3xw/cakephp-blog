@@ -1,5 +1,5 @@
 # cakephp-blog plugin for CakePHP.
-CakePHP blg posts cat tags
+CakePHP blog posts cat tags
 
 ## Installation
 

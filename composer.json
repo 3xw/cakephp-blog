@@ -1,6 +1,6 @@
 {
   "name": "3xw/cakephp-blog",
-  "description": "CakePHP blg posts cat tags",
+  "description": "CakePHP blog posts cat tags",
   "type": "cakephp-plugin",
   "require": {
     "php": ">=5.6",
