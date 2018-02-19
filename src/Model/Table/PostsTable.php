@@ -6,6 +6,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Cake\Utility\Inflector;
+use Cake\Core\Configure;
 
 /**
 * Posts Model
@@ -72,6 +73,15 @@ class PostsTable extends Table
       'joinTable' => 'posts_tags',
       'className' => 'Trois/Blog.Tags'
     ]);
+
+    // custom
+    $i18n = Configure::read('I18n.languages');
+    $translate = (empty($i18n))? false: true;
+    $this->addBehavior('Trois/Blog.Sluggable', ['field' => 'title','translate' => $translate]);
+    if($translate)
+    {
+      $this->addBehavior('Translate', ['fields' => ['title','slug','meta','header','body']]);
+    }
   }
 
   /**

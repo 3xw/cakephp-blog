@@ -6,6 +6,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Cake\Utility\Inflector;
+use Cake\Core\Configure;
 
 /**
 * Categories Model
@@ -51,6 +52,15 @@ class CategoriesTable extends Table
       'foreignKey' => 'category_id',
       'className' => 'Trois/Blog.Posts'
     ]);
+
+    // custom
+    $i18n = Configure::read('I18n.languages');
+    $translate = (empty($i18n))? false: true;
+    $this->addBehavior('Trois/Blog.Sluggable', ['field' => 'name','translate' => $translate]);
+    if($translate)
+    {
+      $this->addBehavior('Translate', ['fields' => ['name','slug','meta']]);
+    }
   }
 
   /**

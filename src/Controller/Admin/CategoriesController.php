@@ -12,6 +12,13 @@ use App\Controller\AppController;
 */
 class CategoriesController extends AppController
 {
+  public $paginate = [
+    'limit' => 100,
+    'order' => [
+      'Categories.name' => 'asc'
+    ]
+  ];
+
   public function initialize()
   {
     parent::initialize();

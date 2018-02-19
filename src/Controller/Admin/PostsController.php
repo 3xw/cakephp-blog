@@ -12,6 +12,13 @@ use App\Controller\AppController;
 */
 class PostsController extends AppController
 {
+  public $paginate = [
+    'limit' => 100,
+    'order' => [
+      'Posts.publish_date' => 'asc'
+    ]
+  ];
+
   public function initialize()
   {
     parent::initialize();

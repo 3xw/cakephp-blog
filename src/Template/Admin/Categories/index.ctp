@@ -30,80 +30,64 @@
       <div class="card-header">
         <h2 class="card-title">
           <?= __('Categories')?> <small><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></small>
-          </h2>
-          <?= $this->Form->create('Search', ['novalidate', 'class'=>'', 'role'=>'search']) ?>
-          <?= $this->Form->input('q', ['class'=>'form-control', 'placeholder'=>__('Search...'), 'label'=>false]) ?>
-          <?= $this->Form->end() ?>
-          </div>
+        </h2>
+        <?= $this->Form->create('Search', ['novalidate', 'class'=>'', 'role'=>'search']) ?>
+        <?= $this->Form->input('q', ['class'=>'form-control', 'placeholder'=>__('Search...'), 'label'=>false]) ?>
+        <?= $this->Form->end() ?>
+      </div>
 
-          <!-- START CONTEMT -->
-          <div class="card-body">
+      <!-- START CONTEMT -->
+      <div class="card-body">
 
-          <figure class="figure figure--table">
+        <figure class="figure figure--table">
 
           <table id="datatables" class="table table-no-bordered table-hover dataTable dtr-inline" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
-          <thead class="thead-default">
-          <tr>
-                    
-
-          <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-
-                
-
-          <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-
-                
-
-          <th scope="col"><?= $this->Paginator->sort('slug') ?></th>
-
-                
-
-          <th scope="col"><?= $this->Paginator->sort('meta') ?></th>
-
-            <th scope="col" class="actions"><?= __('Actions') ?></th>
-      </tr>
-      </thead>
-      <tbody>
-      <?php foreach ($categories as $category): ?>
-      <tr>
-                            <td><?= $this->Number->format($category->id) ?></td>
-                      <td><?= h($category->name) ?></td>
-                      <td><?= h($category->slug) ?></td>
-                      <td><?= h($category->meta) ?></td>
-  <td data-title="actions" class="actions" class="text-right">
-<div class="btn-group">
-<?= $this->Html->link('<i class="material-icons">visibility</i>', ['action' => 'view', $category->id],['class' => 'btn btn-xs btn-simple btn-info btn-icon edit','escape' => false]) ?>
-<?= $this->Html->link('<i class="material-icons">mode_edit</i>', ['action' => 'edit', $category->id], ['class' => 'btn btn-xs btn-simple btn-warning btn-icon edit','escape' => false]) ?>
-<?= $this->Form->postLink('<i class="material-icons">delete</i>', ['action' => 'delete', $category->id], ['class' => 'btn btn-xs btn-simple btn-danger btn-icon remove','escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?',  $category->id)]) ?>
-</div>
-</td>
-</tr>
-<?php endforeach; ?>
-</tbody>
-</table>
-</figure>
-</div>
-<!-- END CONTEMT -->
-<!-- START FOOTER -->
-<div class="card-footer">
-<div class="row no-gutters">
-<div class="col-6">
-<?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?>
-</div>
-<div class="col-6">
-<nav aria-label="pagination">
-<ul class="pagination justify-content-end">
-<?= $this->Paginator->first('<< ' . __('first'),['class'=>'btn '])?>
-<?= $this->Paginator->prev('< ' . __('previous')) ?>
-<?= $this->Paginator->numbers() ?>
-<?= $this->Paginator->next(__('next') . ' >') ?>
-<?= $this->Paginator->last(__('last') . ' >>') ?>
-</ul>
-</nav>
-</div>
-</div>
-</div>
-<!-- END FOOTER -->
-</div><!-- end content-->
-</div><!-- end card-->
+            <thead class="thead-default">
+              <tr>
+                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('name') ?></th>
+                <th scope="col" class="actions"><?= __('Actions') ?></th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($categories as $category): ?>
+                <tr>
+                  <td><?= $this->Number->format($category->id) ?></td>
+                  <td><?= h($category->name) ?></td>
+                  <td data-title="actions" class="actions" class="text-right">
+                    <div class="btn-group">
+                      <?= $this->Html->link('<i class="material-icons">visibility</i>', ['action' => 'view', $category->id],['class' => 'btn btn-xs btn-simple btn-info btn-icon edit','escape' => false]) ?>
+                      <?= $this->Html->link('<i class="material-icons">mode_edit</i>', ['action' => 'edit', $category->id], ['class' => 'btn btn-xs btn-simple btn-warning btn-icon edit','escape' => false]) ?>
+                      <?= $this->Form->postLink('<i class="material-icons">delete</i>', ['action' => 'delete', $category->id], ['class' => 'btn btn-xs btn-simple btn-danger btn-icon remove','escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?',  $category->id)]) ?>
+                    </div>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        </figure>
+      </div>
+      <!-- END CONTEMT -->
+      <!-- START FOOTER -->
+      <div class="card-footer">
+        <div class="row no-gutters">
+          <div class="col-6">
+            <?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?>
+          </div>
+          <div class="col-6">
+            <nav aria-label="pagination">
+              <ul class="pagination justify-content-end">
+                <?= $this->Paginator->first('<< ' . __('first'),['class'=>'btn '])?>
+                <?= $this->Paginator->prev('< ' . __('previous')) ?>
+                <?= $this->Paginator->numbers() ?>
+                <?= $this->Paginator->next(__('next') . ' >') ?>
+                <?= $this->Paginator->last(__('last') . ' >>') ?>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <!-- END FOOTER -->
+    </div><!-- end content-->
+  </div><!-- end card-->
 </div><!-- end col-xs-12-->

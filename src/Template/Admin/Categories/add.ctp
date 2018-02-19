@@ -1,8 +1,6 @@
 <?php
-/**
- * @var \App\View\AppView $this
- * @var \Cake\Datasource\EntityInterface $category
- */
+use Cake\Core\Configure;
+$i18n = Configure::read('I18n.languages');
 ?>
 <nav class="navbar navbar-expand-lg">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,7 +9,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item active">
-          <?= $this->Html->link('<i class="material-icons">list</i> '.__('List'),['action'=>'index'], ['class' => '','escape'=>false]) ?>
+        <?= $this->Html->link('<i class="material-icons">list</i> '.__('List'),['action'=>'index'], ['class' => '','escape'=>false]) ?>
       </li>
     </ul>
   </div>
@@ -25,22 +23,31 @@
       </div>
       <div class="card-body">
         <?= $this->Form->create($category) ?>
-        <?php
-                            echo $this->Form->control('name',['class'=>'form-control']);
-                    echo $this->Form->control('slug',['class'=>'form-control']);
-                    echo $this->Form->control('meta',['class'=>'form-control']);
 
-      ?>
-      <div class="text-right">
-        <div class="btn-group">
-          <?= $this->Html->link(__('Cancel'), $referer, ['class' => 'btn btn-danger btn-fill']) ?>
-          <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-info btn-fill']) ?>
+
+        <!-- No i18n -->
+        <?php if(empty($i18n)): ?>
+          <div class="col-md-12">
+            <?= $this->Form->input('name', ['class' => 'form-control']) ?>
+            <?= $this->Form->input('meta', ['class' => 'form-control']) ?>
+          </div>
+        <?php else: ?>
+          <div class="col-12">
+            <?= $this->element('locale',['fields' => ['name','meta']]) ?>
+          </div>
+        <?php endif;  ?>
+
+
+        <div class="text-right">
+          <div class="btn-group">
+            <?= $this->Html->link(__('Cancel'), $referer, ['class' => 'btn btn-danger btn-fill']) ?>
+            <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-info btn-fill']) ?>
+          </div>
         </div>
-      </div>
-      <?= $this->Form->end() ?>
+        <?= $this->Form->end() ?>
       </div>
 
+    </div>
   </div>
-</div>
 </div>
 <div class="utils--spacer-default"></div>
