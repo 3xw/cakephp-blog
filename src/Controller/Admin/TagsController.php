@@ -1,6 +1,7 @@
 <?php
 namespace Trois\Blog\Controller\Admin;
 
+use Cake\Core\Configure;
 use App\Controller\AppController;
 
 /**
@@ -12,6 +13,13 @@ use App\Controller\AppController;
 */
 class TagsController extends AppController
 {
+  public $paginate = [
+    'limit' => 100,
+    'order' => [
+      'Tags.name' => 'asc'
+    ]
+  ];
+
   public function initialize()
   {
     parent::initialize();
@@ -34,23 +42,6 @@ class TagsController extends AppController
   }
 
   /**
-  * View method
-  *
-  * @param string|null $id Tag id.
-  * @return \Cake\Http\Response|void
-  * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-  */
-  public function view($id = null)
-  {
-    $tag = $this->Tags->get($id, [
-      'contain' => ['Posts']
-    ]);
-
-    $this->set('tag', $tag);
-    $this->set('_serialize', ['tag']);
-  }
-
-  /**
   * Add method
   *
   * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
@@ -67,8 +58,7 @@ class TagsController extends AppController
       }
       $this->Flash->error(__('The tag could not be saved. Please, try again.'));
     }
-    $posts = $this->Tags->Posts->find('list', ['limit' => 200]);
-    $this->set(compact('tag', 'posts'));
+    $this->set(compact('tag'));
     $this->set('_serialize', ['tag']);
   }
 
@@ -81,9 +71,15 @@ class TagsController extends AppController
   */
   public function edit($id = null)
   {
-    $tag = $this->Tags->get($id, [
-      'contain' => ['Posts']
-    ]);
+    $i18n = Configure::read('I18n.languages');
+    $translate = (empty($i18n))? false : true;
+
+    $query = ($translate)? $this->Tags->find('translations') :  $this->Tags->find();
+
+    $tag = $query
+    ->where(['Tags.id' => $id])
+    ->first();
+
     if ($this->request->is(['patch', 'post', 'put'])) {
       $tag = $this->Tags->patchEntity($tag, $this->request->getData());
       if ($this->Tags->save($tag)) {
@@ -93,8 +89,7 @@ class TagsController extends AppController
       }
       $this->Flash->error(__('The tag could not be saved. Please, try again.'));
     }
-    $posts = $this->Tags->Posts->find('list', ['limit' => 200]);
-    $this->set(compact('tag', 'posts'));
+    $this->set(compact('tag'));
     $this->set('_serialize', ['tag']);
   }
 

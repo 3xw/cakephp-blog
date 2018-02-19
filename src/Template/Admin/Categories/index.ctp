@@ -44,7 +44,6 @@
           <table id="datatables" class="table table-no-bordered table-hover dataTable dtr-inline" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
             <thead class="thead-default">
               <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('name') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
               </tr>
@@ -52,11 +51,9 @@
             <tbody>
               <?php foreach ($categories as $category): ?>
                 <tr>
-                  <td><?= $this->Number->format($category->id) ?></td>
                   <td><?= h($category->name) ?></td>
                   <td data-title="actions" class="actions" class="text-right">
                     <div class="btn-group">
-                      <?= $this->Html->link('<i class="material-icons">visibility</i>', ['action' => 'view', $category->id],['class' => 'btn btn-xs btn-simple btn-info btn-icon edit','escape' => false]) ?>
                       <?= $this->Html->link('<i class="material-icons">mode_edit</i>', ['action' => 'edit', $category->id], ['class' => 'btn btn-xs btn-simple btn-warning btn-icon edit','escape' => false]) ?>
                       <?= $this->Form->postLink('<i class="material-icons">delete</i>', ['action' => 'delete', $category->id], ['class' => 'btn btn-xs btn-simple btn-danger btn-icon remove','escape' => false, 'confirm' => __('Are you sure you want to delete # {0}?',  $category->id)]) ?>
                     </div>

@@ -7,6 +7,7 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Cake\Utility\Inflector;
 use Cake\Core\Configure;
+use Cake\Datasource\EntityInterface;
 
 /**
 * Categories Model
@@ -101,6 +102,34 @@ class CategoriesTable extends Table
       ['slug'],
       'Slug must be unique, please change it to be unique.'
     ));
+
+    $rules->add(
+      function (EntityInterface $entity) {
+        $behavior = $this->behaviors()->get('Translate');
+        $association = $this->association($behavior->getConfig('translationTable'));
+
+        $result = true;
+        foreach ($entity->get('_translations') as $locale => $translation) {
+          $conditions = [
+            $association->aliasField('field') => 'slug',
+            $association->aliasField('locale') => $locale,
+            $association->aliasField('content') => $translation->get('slug')
+          ];
+
+          if ($association->exists($conditions)) {
+            $translation->setErrors([
+              'slug' => [
+                'uniqueTranslation' => __d('cake', 'This value is already in use')
+              ]
+            ]);
+
+            $result = false;
+          }
+        }
+
+        return $result;
+      }
+    );
 
     return $rules;
   }
