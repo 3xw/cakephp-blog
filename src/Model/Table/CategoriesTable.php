@@ -94,4 +94,14 @@ class CategoriesTable extends Table
 
     return $validator;
   }
+
+  public function buildRules(RulesChecker $rules)
+  {
+    $rules->add($rules->isUnique(
+      ['slug'],
+      'Slug must be unique, please change it to be unique.'
+    ));
+
+    return $rules;
+  }
 }

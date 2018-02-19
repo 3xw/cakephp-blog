@@ -80,7 +80,7 @@ class PostsTable extends Table
     $this->addBehavior('Trois/Blog.Sluggable', ['field' => 'title','translate' => $translate]);
     if($translate)
     {
-      $this->addBehavior('Translate', ['fields' => ['title','slug','meta','header','body']]);
+      $this->addBehavior('Translate', ['fields' => ['title','slug','meta','header','body','is_published']]);
     }
   }
 
@@ -99,12 +99,14 @@ class PostsTable extends Table
     $validator
     ->scalar('title')
     ->maxLength('title', 255)
-    ->allowEmpty('title');
+    ->requirePresence('title', 'create')
+    ->notEmpty('title');
 
     $validator
     ->scalar('slug')
     ->maxLength('slug', 255)
-    ->allowEmpty('slug');
+    ->requirePresence('slug', 'create')
+    ->notEmpty('slug');
 
     $validator
     ->boolean('is_published')
@@ -144,6 +146,11 @@ class PostsTable extends Table
   public function buildRules(RulesChecker $rules)
   {
     $rules->add($rules->existsIn(['category_id'], 'Categories'));
+
+    $rules->add($rules->isUnique(
+      ['slug'],
+      'Slug must be unique, please change it to be unique.'
+    ));
 
     return $rules;
   }
