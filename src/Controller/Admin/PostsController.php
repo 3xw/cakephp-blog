@@ -1,6 +1,7 @@
 <?php
 namespace Trois\Blog\Controller\Admin;
 
+use Cake\Core\Configure;
 use App\Controller\AppController;
 
 /**
@@ -92,9 +93,16 @@ class PostsController extends AppController
   */
   public function edit($id = null)
   {
-    $post = $this->Posts->get($id, [
-      'contain' => ['Attachments', 'Tags']
-    ]);
+    $i18n = Configure::read('I18n.languages');
+    $translate = (empty($i18n))? false : true;
+
+    $query = ($translate)? $this->Posts->find('translations') :  $this->Posts->find();
+
+    $post = $query
+    ->contain(['Attachments', 'Tags'])
+    ->where(['Posts.id' => $id])
+    ->first();
+
     if ($this->request->is(['patch', 'post', 'put'])) {
       $post = $this->Posts->patchEntity($post, $this->request->getData());
       if ($this->Posts->save($post)) {
