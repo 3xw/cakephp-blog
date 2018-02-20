@@ -57,7 +57,7 @@ class CategoriesTable extends Table
     // custom
     $i18n = Configure::read('I18n.languages');
     $translate = (empty($i18n))? false: true;
-    $this->addBehavior('Trois/Blog.Sluggable', ['field' => 'name','translate' => $translate]);
+    $this->addBehavior('Trois/Utils.Sluggable', ['field' => 'name','translate' => $translate]);
     if($translate)
     {
       $this->addBehavior('Translate', ['fields' => ['name','slug','meta']]);
@@ -98,38 +98,8 @@ class CategoriesTable extends Table
 
   public function buildRules(RulesChecker $rules)
   {
-    $rules->add($rules->isUnique(
-      ['slug'],
-      'Slug must be unique, please change it to be unique.'
-    ));
-
-    $rules->add(
-      function (EntityInterface $entity) {
-        $behavior = $this->behaviors()->get('Translate');
-        $association = $this->association($behavior->getConfig('translationTable'));
-
-        $result = true;
-        foreach ($entity->get('_translations') as $locale => $translation) {
-          $conditions = [
-            $association->aliasField('field') => 'slug',
-            $association->aliasField('locale') => $locale,
-            $association->aliasField('content') => $translation->get('slug')
-          ];
-
-          if ($association->exists($conditions)) {
-            $translation->setErrors([
-              'slug' => [
-                'uniqueTranslation' => __d('cake', 'This value is already in use')
-              ]
-            ]);
-
-            $result = false;
-          }
-        }
-
-        return $result;
-      }
-    );
+    $rules->add(new \Trois\Utils\Model\Rule\IsUniqueTranslationRule(['slug']));
+    $rules->add($rules->isUnique(['slug']));
 
     return $rules;
   }

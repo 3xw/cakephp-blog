@@ -77,10 +77,10 @@ class PostsTable extends Table
     // custom
     $i18n = Configure::read('I18n.languages');
     $translate = (empty($i18n))? false: true;
-    $this->addBehavior('Trois/Blog.Sluggable', ['field' => 'title','translate' => $translate]);
+    $this->addBehavior('Trois/Utils.Sluggable', ['field' => 'title','translate' => $translate]);
     if($translate)
     {
-      $this->addBehavior('Translate', ['fields' => ['title','slug','meta','header','body','is_published']]);
+      $this->addBehavior('Translate', ['fields' => ['title','slug','meta','header','body','is_published','enable_comment']]);
     }
   }
 
@@ -146,11 +146,8 @@ class PostsTable extends Table
   public function buildRules(RulesChecker $rules)
   {
     $rules->add($rules->existsIn(['category_id'], 'Categories'));
-
-    $rules->add($rules->isUnique(
-      ['slug'],
-      'Slug must be unique, please change it to be unique.'
-    ));
+    $rules->add(new \Trois\Utils\Model\Rule\IsUniqueTranslationRule(['slug']));
+    $rules->add($rules->isUnique(['slug']));
 
     return $rules;
   }

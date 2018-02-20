@@ -58,7 +58,7 @@ class TagsTable extends Table
     // custom
     $i18n = Configure::read('I18n.languages');
     $translate = (empty($i18n))? false: true;
-    $this->addBehavior('Trois/Blog.Sluggable', ['field' => 'name','translate' => $translate]);
+    $this->addBehavior('Trois/Utils.Sluggable', ['field' => 'name','translate' => $translate]);
     if($translate)
     {
       $this->addBehavior('Translate', ['fields' => ['name','slug','meta']]);
@@ -90,5 +90,13 @@ class TagsTable extends Table
     ->notEmpty('slug');
 
     return $validator;
+  }
+
+  public function buildRules(RulesChecker $rules)
+  {
+    $rules->add(new \Trois\Utils\Model\Rule\IsUniqueTranslationRule(['slug']));
+    $rules->add($rules->isUnique(['slug']));
+
+    return $rules;
   }
 }
