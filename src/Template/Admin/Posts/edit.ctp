@@ -84,7 +84,7 @@ $i18n = Configure::read('I18n.languages');
             Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
             Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
           ],
-          'attachments' => [] // array of exisiting Attachment entities ( HABTM ) or entity ( belongsTo )
+          'attachments' => $post->attachments // array of exisiting Attachment entities ( HABTM ) or entity ( belongsTo )
         ]);
         ?>
         <div class="text-right">
