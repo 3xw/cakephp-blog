@@ -16,7 +16,7 @@ class PostsController extends AppController
   public $paginate = [
     'limit' => 100,
     'order' => [
-      'Posts.publish_date' => 'asc'
+      'Posts.publish_date' => 'DESC'
     ]
   ];
 
@@ -35,10 +35,10 @@ class PostsController extends AppController
   */
   public function index()
   {
-    $this->paginate = [
-      'contain' => ['Categories']
-    ];
-    $posts = $this->paginate($this->Posts);
+    $query = $this->Posts->find()
+    ->contain(['Categories']);
+
+    $posts = $this->paginate($query);
 
     $this->set(compact('posts'));
     $this->set('_serialize', ['posts']);
