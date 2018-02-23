@@ -34,7 +34,7 @@ $i18n = Configure::read('I18n.languages');
               <?= $this->Form->input('title', ['class' => 'form-control']) ?>
               <?= $this->Form->input('slug', ['class' => 'form-control']) ?>
             <?php else: ?>
-              <?= $this->element('locale',['fields' => ['is_published','enable_comment','title','slug']]) ?>
+              <?= $this->element('locale',['fields' => ['is_published','enable_comment','title','slug','author']]) ?>
             <?php endif;  ?>
 
           </div>

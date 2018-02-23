@@ -80,7 +80,7 @@ class PostsTable extends Table
     $this->addBehavior('Trois/Utils.Sluggable', ['field' => 'title','translate' => $translate]);
     if($translate)
     {
-      $this->addBehavior('Trois/Utils.Translate', ['fields' => ['title','slug','meta','header','body','is_published','enable_comment']]);
+      $this->addBehavior('Trois/Utils.Translate', ['fields' => ['title','slug','meta','header','body','author','is_published','enable_comment']]);
     }
   }
 
@@ -120,6 +120,11 @@ class PostsTable extends Table
     ->scalar('meta')
     ->maxLength('meta', 255)
     ->allowEmpty('meta');
+
+    $validator
+    ->scalar('author')
+    ->maxLength('author', 255)
+    ->allowEmpty('author');
 
     $validator
     ->scalar('header')

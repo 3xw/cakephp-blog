@@ -33,7 +33,15 @@ $i18n = Configure::read('I18n.languages');
               <?= $this->Form->control('enable_comment',['class'=>'form-control']) ?>
               <?= $this->Form->input('title', ['class' => 'form-control']) ?>
             <?php else: ?>
-              <?= $this->element('locale',['fields' => ['is_published','enable_comment','title']]) ?>
+              <?= $this->element('locale',[
+                'fields' => [
+                  'is_published',
+                  'enable_comment',
+                  'title',
+                  'author' =>[
+                    'value' => $this->request->session()->read('Auth.User.first_name').' '.$this->request->session()->read('Auth.User.last_name')
+                    ]
+              ]]) ?>
             <?php endif;  ?>
 
           </div>
