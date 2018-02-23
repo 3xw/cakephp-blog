@@ -60,7 +60,7 @@ class CategoriesTable extends Table
     $this->addBehavior('Trois/Utils.Sluggable', ['field' => 'name','translate' => $translate]);
     if($translate)
     {
-      $this->addBehavior('Translate', ['fields' => ['name','slug','meta']]);
+      $this->addBehavior('Trois/Utils.Translate', ['fields' => ['name','slug','meta']]);
     }
   }
 

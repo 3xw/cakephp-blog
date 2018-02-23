@@ -80,7 +80,7 @@ class PostsTable extends Table
     $this->addBehavior('Trois/Utils.Sluggable', ['field' => 'title','translate' => $translate]);
     if($translate)
     {
-      $this->addBehavior('Translate', ['fields' => ['title','slug','meta','header','body','is_published','enable_comment']]);
+      $this->addBehavior('Trois/Utils.Translate', ['fields' => ['title','slug','meta','header','body','is_published','enable_comment']]);
     }
   }
 
