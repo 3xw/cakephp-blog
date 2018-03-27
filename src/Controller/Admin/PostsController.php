@@ -35,9 +35,10 @@ class PostsController extends AppController
   */
   public function index()
   {
-    $query = $this->Posts->find()
-    ->contain(['Categories']);
 
+    $query = $this->Posts
+    ->find('search',['search' => $this->request->query])
+    ->contain(['Categories']);
     $posts = $this->paginate($query);
 
     $this->set(compact('posts'));
