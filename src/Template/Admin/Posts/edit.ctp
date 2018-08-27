@@ -59,7 +59,7 @@ $i18n = Configure::read('I18n.languages');
               Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
               Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
             ],
-            'content' => $post,
+            'content' => $post->body,
           ]);
           ?>
         <?php else: ?>
@@ -71,7 +71,7 @@ $i18n = Configure::read('I18n.languages');
                 Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
                 Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
               ],
-              'content' => $post,
+              'content' => $post->body,
             ]
             ]]]) ?>
           <?php endif;  ?>
