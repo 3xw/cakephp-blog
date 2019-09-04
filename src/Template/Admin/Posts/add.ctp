@@ -59,27 +59,62 @@ $i18n = Configure::read('I18n.languages');
           <?php
           echo $this->Form->control('meta',['class'=>'form-control']);
           echo $this->Form->control('header',['class'=>'form-control']);
-          echo $this->Attachment->trumbowyg('body',[
-            'types' =>['image/jpeg','image/png','image/gif'],
-            'atags' => [],
-            'restrictions' => [
-              Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
-              Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
-            ],
-            'content' => '',
+          echo $this->element('Trois/Tinymce.tinymce',[
+            'field' => 'body',
+            'value' => '',
+            'init' => [
+              'external_plugins' => [
+                'attachment' => $this->Url->build('/attachment/js/Plugins/tinymce/plugin.min.js', true),
+              ],
+              'attachment_settings' => $this->Attachment->jsSetup('body',[
+                'types' => [
+                  'application/pdf',
+                  'application/msword',
+                  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                  'application/vnd.ms-excel',
+                  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                  'image/jpeg',
+                  'image/png',
+                  'embed/youtube',
+                  'embed/vimeo'
+                ],
+                'atags' => [],
+                'restrictions' => [
+                  Attachment\View\Helper\AttachmentHelper::TAG_OR_RESTRICTED,
+                  Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
+                ],
+              ])
+            ]
           ]);
           ?>
         <?php else: ?>
           <?= $this->element('locale',['fields' => ['meta','header','body' => [
-            'Attachment.trumbowyg' => [
-              'types' =>['image/jpeg','image/png','image/gif'],
-              'atags' => [],
-              'restrictions' => [
-                Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
-                Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
-              ],
-              'attachments' => [] // array of exisiting Attachment entities ( HABTM ) or entity ( belongsTo )
-            ]
+            'Trois/Tinymce.tinymce' => [
+              'value' => '',
+              'init' => [
+                'external_plugins' => [
+                  'attachment' => $this->Url->build('/attachment/js/Plugins/tinymce/plugin.min.js', true),
+                ],
+                'attachment_settings' => [
+                  'types' => [
+                    'application/pdf',
+                    'application/msword',
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                    'application/vnd.ms-excel',
+                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    'image/jpeg',
+                    'image/png',
+                    'embed/youtube',
+                    'embed/vimeo'
+                  ],
+                  'atags' => [],
+                  'restrictions' => [
+                    Attachment\View\Helper\AttachmentHelper::TAG_OR_RESTRICTED,
+                    Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
+                  ],
+                ]
+              ]
+            ],
             ]]]) ?>
           <?php endif;  ?>
 
